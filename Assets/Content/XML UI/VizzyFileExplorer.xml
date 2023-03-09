@@ -1,0 +1,56 @@
+<XmlLayout xmlns="http://www.w3schools.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="..\..\ModTools\UI\XmlLayout.xsd">
+  <Panel id="vizzy-studio-button" name="VizzyStudio" data-category-id="vizzy-studio" class="toggle-button toggle-category audio-btn-click" tooltip="Vizzy Studio" onClick="OnCategoryButtonClicked(this);">
+    <Image class="toggle-button-icon" sprite="Ui/Sprites/Flight/IconToggleFlightInfoPanel" />
+  </Panel>
+  
+  <Panel id="vizzy-studio" class="panel flyout" width="300" active="false">
+    <Panel class="flyout-header">
+      <TextMeshPro text="VIZZY STUDIO" />
+      <Image class="flyout-close-button audio-btn-back" onClick="OnClosePanelClicked();" />
+    </Panel>
+    
+    <VerticalLayout padding="8 0 32 40" spacing="8">
+      <VerticalLayout flexibleHeight="75" spacing="8">
+        <TextMeshPro text="MODULES" color="ButtonText" alignment="Left" contentSizeFitter="vertical" margin="16 0 0 0" />
+        <VerticalScrollView flexibleHeight="100">
+          <GridLayout id="modules-node-parent" class="no-image" cellSize="300 32" contentSizeFitter="vertical" />
+        </VerticalScrollView>
+      </VerticalLayout>
+      <Image class="separator" contentSizeFitter="vertical" active="false" />
+      <VerticalLayout flexibleHeight="25" spacing="8" active="false">
+        <TextMeshPro text="REFERENCES" color="ButtonText" alignment="Left" contentSizeFitter="vertical" margin="16 0 0 0" />
+        <VerticalScrollView flexibleHeight="100">
+          <GridLayout id="references-node-parent" class="no-image" cellSize="300 32" contentSizeFitter="vertical" />
+        </VerticalScrollView>
+      </VerticalLayout>
+    </VerticalLayout>
+    
+    <Panel id="template-module" class="toggle-button audio-btn-click" active="false" rectAlignment="UpperLeft" pivot="0 1" preferredHeight="32" >
+      <Image internalId="edit-module-button" class="edit-button" onClick="OnEditVariableClicked(this);" color="ButtonIcon" width="16" height="16" offsetXY="8 0" rectAlignment="MiddleLeft" active="false" />
+      <TextMeshPro internalId="button-text" text="Main" color="ButtonText" alignment="Left" offsetXY="32 0" />
+    </Panel>
+    
+    <Button id="create-module-button" class="btn btn-primary" rectAlignment="LowerCenter" onClick="OnButtonCreateClicked();" tooltip="Create a new file for this program to organize your code." tooltipPosition="Above" active="false">
+      <TextMeshPro text="Create New Module" />
+    </Button>
+  </Panel>
+
+  <Panel id="modules-drop-zone-area" opacity="1" active="false">
+    <Panel rectAlignment="MiddleRight" width="120" border="Border" color="Panel" offsetXY="0 -190">
+      <TextMeshPro text="Drag to Module" alignment="Top" offsetXY="0 30" />
+      <Panel id="modules-drop-zone-arrow-up" color="Button" rectAlignment="UpperCenter" height="30">
+        <Image sprite="Ui/Sprites/Design/IconSpinnerArrowLeft" rectAlignment="MiddleCenter" setNativeSize="true" rotation="0 0 -90" />
+      </Panel>
+      <VerticalScrollView id="modules-drop-zone-scroll-view" class="no-image" offsetXY="0 -30" noScrollbars="true" >
+        <GridLayout id="modules-drop-zone" class="no-image" cellSize="120 120" spacing="0" contentSizeFitter="vertical" pivot="0 1" padding="0 0 0 240"/>
+      </VerticalScrollView>
+      <Panel id="modules-drop-zone-arrow-down" color="Button" rectAlignment="LowerCenter" height="30" offsetXY="0 190">
+        <Image sprite="Ui/Sprites/Design/IconSpinnerArrowLeft" rectAlignment="MiddleCenter" setNativeSize="true" rotation="0 0 90" />
+      </Panel>
+      <Panel id="module-dropzone-template" class="move-part-dropzone no-image" minHeight="120" active="false">
+        <Image internalId ="module-background" sprite="Ui/Sprites/Design/DropZone" setNativeSize="true" raycastTarget="true" />
+        <TextMeshPro internalId ="module-text" text="" alignment="Center" enableWordWrapping="true" width="64" />
+      </Panel>
+    </Panel>
+  </Panel>
+</XmlLayout>

@@ -58,3 +58,15 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+# Juno ModTools
+*/ModTools/
+*/Resources/
+*/TextMesh Pro/
+*/Scenes/
+/ModAssetBundles/
+/UserSettings/
+_Help_*.*
+/Assets/ModTools.meta
+/Assets/Resources.meta
+/Assets/Scenes.meta
+/Assets/TextMesh Pro.meta

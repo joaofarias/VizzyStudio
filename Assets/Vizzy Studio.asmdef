@@ -1,0 +1,8 @@
+{
+	"name": "Vizzy Studio",
+	"references": [
+		"UnityEngine.UI",
+		"Unity.TextMeshPro",
+		"Unity.Mathematics"
+	]
+}
