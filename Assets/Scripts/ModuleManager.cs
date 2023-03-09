@@ -33,6 +33,12 @@ namespace Assets.Scripts
             Modules.Clear();
             ActiveModule = null;
             _nodesToModules.Clear();
+
+            // The game only destroys active gameobjects. We need to destroy the inactive ones ourselves
+            foreach (BlockElementScript block in _vizzyController.ProgramTransform.GetComponentsInChildren<BlockElementScript>(true))
+            {
+                block.Destroy();
+            }
         }
 
         public bool CanRenderNode(ProgramNode node)
