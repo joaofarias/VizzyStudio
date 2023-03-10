@@ -2,6 +2,7 @@
 using ModApi.Craft.Program.Expressions;
 using ModApi.Craft.Program.Instructions;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 
@@ -10,6 +11,7 @@ namespace Assets.Scripts
     public class Reference
     {
         public string FileName { get; set; }
+        public string DisplayName => Path.GetFileNameWithoutExtension(FileName);
         public List<CustomInstruction> CustomInstructions { get; set; } = new List<CustomInstruction>();
         public List<CustomExpression> CustomExpressions { get; set; } = new List<CustomExpression>();
         public VariableSet Variables { get; set; } = new VariableSet();

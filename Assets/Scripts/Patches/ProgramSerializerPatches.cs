@@ -69,6 +69,8 @@ namespace Assets.Scripts.Patches
             {
                 //Deserialize for vizzy
                 _canDeserializeNodes = false;
+
+                ReferenceManager.Instance.LoadReferences(programXml, __result);
             }
         }
 

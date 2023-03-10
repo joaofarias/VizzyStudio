@@ -108,6 +108,12 @@ namespace Assets.Scripts
 
         public void Refresh()
         {
+            RefreshModules();
+            RefreshReferences();
+        }
+
+        public void RefreshModules()
+        {
             XmlElement modulesPanel = _vizzyController.xmlLayout.GetElementById("modules-node-parent");
 
             // remove existing modules
@@ -139,6 +145,31 @@ namespace Assets.Scripts
                     panel.RemoveClass("toggle-button-toggled");
                     panel.GetElementByInternalId("edit-module-button").Hide();
                 }
+            }
+        }
+
+        public void RefreshReferences()
+        {
+            XmlElement referencesPanel = _vizzyController.xmlLayout.GetElementById("references-node-parent");
+
+            // remove existing references
+            foreach (Transform transform in referencesPanel.transform)
+            {
+                transform.gameObject.SetActive(false);
+                Object.Destroy(transform.gameObject);
+            }
+
+            // create references again
+            XmlElement template = _vizzyController.xmlLayout.GetElementById("template-reference");
+            foreach (Reference reference in ReferenceManager.Instance.References.OrderBy(m => m.DisplayName))
+            {
+                XmlElement panel = UiUtilities.CloneTemplate(template, referencesPanel, true);
+                panel.GetElementByInternalId("reference-name").SetText(reference.DisplayName);
+                panel.GetElementByInternalId("remove-reference-button").AddOnClickEvent(() =>
+                {
+                    ReferenceManager.Instance.RemoveReference(reference);
+                });
+                panel.Show();
             }
         }
 

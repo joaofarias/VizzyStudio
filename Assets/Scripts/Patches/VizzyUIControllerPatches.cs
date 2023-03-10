@@ -1,10 +1,8 @@
 ﻿using Assets.Scripts.Vizzy.UI;
-using Assets.Scripts.Vizzy.UI.Elements;
 using HarmonyLib;
 using ModApi.Craft.Program;
 using ModApi.Ui;
 using UI.Xml;
-using UnityEditor;
 using UnityEngine;
 
 namespace Assets.Scripts.Patches
@@ -21,6 +19,19 @@ namespace Assets.Scripts.Patches
             {
                 __instance.xmlLayout.GetElementById("vizzy-studio").Hide();
                 __instance.xmlLayout.GetElementById("create-module-button").Hide();
+
+                // Add reference variables to be populated in side panel
+                if (categoryId == "Lists" || categoryId == "Variables")
+                {
+                    foreach (Reference reference in ReferenceManager.Instance.References)
+                    {
+                        foreach (Variable variable in reference.Variables.Variables)
+                        {
+                            __instance.VizzyUI.FlightProgram.GlobalVariables.AddVariable(variable);
+                        }
+                    }
+                }
+
                 return true;
             }
 
@@ -42,6 +53,23 @@ namespace Assets.Scripts.Patches
             ____createType = 0; // 0 => None
 
             return false;
+        }
+
+        [HarmonyPostfix]
+        [HarmonyPatch("UpdateCategory")]
+        private static void OnUpdateCategoryPostfix(VizzyUIController __instance, string categoryId)
+        {
+            // remove reference variables to ensure they're not saved with the program
+            if (categoryId == "Lists" || categoryId == "Variables")
+            {
+                foreach (Reference reference in ReferenceManager.Instance.References)
+                {
+                    foreach (Variable variable in reference.Variables.Variables)
+                    {
+                        __instance.VizzyUI.FlightProgram.GlobalVariables.DeleteVariable(variable.Name);
+                    }
+                }
+            }
         }
 
         [HarmonyPrefix]
@@ -89,7 +117,7 @@ namespace Assets.Scripts.Patches
             messageDialog.MiddleButtonText = "RENAME";
             messageDialog.OkayButtonText = "DELETE";
             messageDialog.UseDangerButtonStyle = true;
-            
+
             messageDialog.MiddleClicked += editDialog =>
             {
                 editDialog.Close();
@@ -144,7 +172,7 @@ namespace Assets.Scripts.Patches
                         ModuleManager.Instance.RenameModule(currentName, inputText);
                     }
 
-                    VizzyStudioUI.Instance.Refresh();
+                    VizzyStudioUI.Instance.RefreshModules();
 
                     dialog.Close();
                 }

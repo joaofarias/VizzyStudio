@@ -2,13 +2,13 @@
   <Panel id="vizzy-studio-button" name="VizzyStudio" data-category-id="vizzy-studio" class="toggle-button toggle-category audio-btn-click" tooltip="Vizzy Studio" onClick="OnCategoryButtonClicked(this);">
     <Image class="toggle-button-icon" sprite="Ui/Sprites/Flight/IconToggleFlightInfoPanel" />
   </Panel>
-  
+
   <Panel id="vizzy-studio" class="panel flyout" width="300" active="false">
     <Panel class="flyout-header">
       <TextMeshPro text="VIZZY STUDIO" />
       <Image class="flyout-close-button audio-btn-back" onClick="OnClosePanelClicked();" />
     </Panel>
-    
+
     <VerticalLayout padding="8 0 32 40" spacing="8">
       <VerticalLayout flexibleHeight="75" spacing="8">
         <TextMeshPro text="MODULES" color="ButtonText" alignment="Left" contentSizeFitter="vertical" margin="16 0 0 0" />
@@ -17,24 +17,27 @@
         </VerticalScrollView>
       </VerticalLayout>
       <Image class="separator" contentSizeFitter="vertical" />
-      <VerticalLayout flexibleHeight="25" spacing="8">
-        <Panel contentSizeFitter="vertical" padding="16 8 0 0">
+      <VerticalLayout flexibleHeight="25" spacing="8" >
+        <Panel contentSizeFitter="vertical" width="300" padding="16 8 0 0">
           <TextMeshPro text="REFERENCES" color="ButtonText" alignment="Left" />
-          <Panel id="add-reference-button" color="Button" tooltip="Add Reference" width="20" height="20" offsetXY="276 0">
-            <Image sprite="Ui/Sprites/Flight/IconAddInputSlider" width="16" height="16" color="Primary" />
-          </Panel>
+          <Button id="add-reference-button" class="icon-button" icon="Ui/Sprites/Flight/IconAddInputSlider" iconColor="Primary" iconHoverColor="Primary" padding="2 0 0 0" width="20" height="16" preferredWidth="20" preferredHeight="16" iconWidth="16" tooltip="Add Reference" rectAlignment="UpperRight" contentSizeFitter="horizontal" />
         </Panel>
         <VerticalScrollView flexibleHeight="100">
           <GridLayout id="references-node-parent" class="no-image" cellSize="300 32" contentSizeFitter="vertical" />
         </VerticalScrollView>
       </VerticalLayout>
     </VerticalLayout>
-    
+
     <Panel id="template-module" class="toggle-button audio-btn-click" active="false" rectAlignment="UpperLeft" pivot="0 1" preferredHeight="32" >
       <Image internalId="edit-module-button" class="edit-button" onClick="OnEditVariableClicked(this);" color="ButtonIcon" width="16" height="16" offsetXY="8 0" rectAlignment="MiddleLeft" active="false" />
       <TextMeshPro internalId="button-text" text="Main" color="ButtonText" alignment="Left" offsetXY="32 0" />
     </Panel>
-    
+
+    <Panel id="template-reference" class="no-image" active="false" rectAlignment="UpperLeft" pivot="0 1" preferredHeight="32" >
+      <Button internalId="remove-reference-button" class="icon-button" icon="Ui/Sprites/Flight/IconRemoveInputSlider" iconColor="Red" iconHoverColor="Red" padding="0" width="16" height="16" preferredWidth="16" preferredHeight="16" tooltip="Remove Reference" rectAlignment="MiddleLeft" offsetXY="8 0" iconAlignment="Left" />
+      <TextMeshPro internalId="reference-name" text="Ref" color="ButtonText" alignment="Left" offsetXY="32 0" />
+    </Panel>
+
     <Button id="create-module-button" class="btn btn-primary" rectAlignment="LowerCenter" onClick="OnButtonCreateClicked();" tooltip="Create a new file for this program to organize your code." tooltipPosition="Above" active="false">
       <TextMeshPro text="Create New Module" />
     </Button>

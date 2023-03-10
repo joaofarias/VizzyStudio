@@ -13,6 +13,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using ModApi.Common.Extensions;
 using ModApi.Craft.Program.Expressions;
+using ModApi.Ui;
 
 namespace Assets.Scripts.ViewModels
 {
@@ -60,49 +61,15 @@ namespace Assets.Scripts.ViewModels
         public override void OnPrimaryButtonClicked(ListViewItemScript selectedItem)
         {
             FileInfo file = selectedItem.ItemModel as FileInfo;
-            XElement programXml = XDocument.Load(file.FullName).Root;
-
-            Reference reference = new Reference()
+            if (ReferenceManager.Instance.IsReferenceLoaded(file.FullName))
             {
-                FileName = file.FullName
-            };
-
-            VariableSet variables = new VariableSet(programXml.Element("Variables"));
-
-            foreach (XElement customInstructionElement in programXml.Descendants("CustomInstruction"))
-            {
-                CustomInstruction customInstruction = ProgramSerializer.DeserializeInstructionSet(customInstructionElement.Parent) as CustomInstruction;
-                reference.CustomInstructions.Add(customInstruction);
-
-                // Find all the global variables used by this instruction and grab them as well
-                foreach (XElement variableElement in customInstructionElement.Parent.Descendants("Variable"))
-                {
-                    string variableName = variableElement.GetStringAttribute("variableName");
-                    Variable variable = variables.GetVariable(variableName);
-                    if (variable != null)
-                    {
-                        reference.Variables.AddVariable(variable);
-                    }
-                }
+                MessageDialogScript messageDialog = Game.Instance.UserInterface.CreateMessageDialog();
+                messageDialog.UseDangerButtonStyle = true;
+                messageDialog.MessageText = "This file is already referenced in the program.";
+                return;
             }
 
-            foreach (XElement customExpressionElement in programXml.Descendants("CustomExpression"))
-            {
-                CustomExpression customExpression = ProgramSerializer.DeserializeProgramNode(customExpressionElement.Parent) as CustomExpression;
-                reference.CustomExpressions.Add(customExpression);
-
-                // Find all the global variables used by this instruction and grab them as well
-                foreach (XElement variableElement in customExpressionElement.Parent.Descendants("Variable"))
-                {
-                    string variableName = variableElement.GetStringAttribute("variableName");
-                    Variable variable = variables.GetVariable(variableName);
-                    if (variable != null)
-                    {
-                        reference.Variables.AddVariable(variable);
-                    }
-                }
-            }
-
+            Reference reference = ReferenceManager.Instance.LoadReferenceFromFile(file.FullName);
             ReferenceManager.Instance.AddReference(reference);
 
             ListView.Close();

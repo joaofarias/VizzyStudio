@@ -168,7 +168,7 @@ namespace Assets.Scripts
             _vizzyController.DragTransform.localScale = module.Scale;
 
             ActiveModule = module;
-            VizzyStudioUI.Instance.Refresh();
+            VizzyStudioUI.Instance.RefreshModules();
         }
 
         public void LoadModules(XElement programElement)
@@ -190,7 +190,7 @@ namespace Assets.Scripts
                 if (ActiveModule == null)
                 {
                     ActiveModule = module;
-                    VizzyStudioUI.Instance.Refresh();
+                    VizzyStudioUI.Instance.RefreshModules();
                 }
                 else
                 {
@@ -229,7 +229,7 @@ namespace Assets.Scripts
                 if (ActiveModule == null)
                 {
                     ActiveModule = activeModule;
-                    VizzyStudioUI.Instance.Refresh();
+                    VizzyStudioUI.Instance.RefreshModules();
                 }
                 else
                 {
