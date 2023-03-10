@@ -18,42 +18,54 @@ namespace Assets.Scripts.Patches
                 return true;
             }
 
-            MethodInfo updateConnectionsMethod = AccessTools.Method(typeof(InstructionElementScript), "UpdateConnectionPoints");
-
-            __instance.OnChildSizeChanged();
-
-            if (__instance.PrevInstruction != null)
-            {
-                __instance.PrevInstruction.NextInstruction = __instance.NextInstruction;
-            }
-
-            if (__instance.NextInstruction != null)
-            {
-                __instance.NextInstruction.PrevInstruction = __instance.PrevInstruction;
-                updateConnectionsMethod.Invoke(__instance.NextInstruction, null);
-            }
-
-            if (__instance.ParentInstruction != null)
-            {
-                __instance.ParentInstruction.ChildInstruction = __instance.ChildInstruction;
-            }
-
-            if (__instance.ChildInstruction != null)
-            {
-                __instance.ChildInstruction.ParentInstruction = __instance.ParentInstruction;
-                updateConnectionsMethod.Invoke(__instance.ChildInstruction, null);
-            }
-
-            __instance.PrevInstruction = null;
-            __instance.NextInstruction = null;
-            __instance.ParentInstruction = null;
-            __instance.ChildInstruction = null;
-
-            updateConnectionsMethod.Invoke(__instance, null);
+            DisconnectBlock(__instance);
 
             __result = new List<BlockElementScript>() { __instance };
 
             return false;
+        }
+
+        public static void DisconnectBlock(InstructionElementScript block)
+        {
+            MethodInfo updateConnectionsMethod = AccessTools.Method(typeof(InstructionElementScript), "UpdateConnectionPoints");
+            //MethodInfo repositionNextInstructionMethod = AccessTools.Method(typeof(InstructionElementScript), "RepsitionNextInstruction");
+
+            block.OnChildSizeChanged();
+
+            if (block.ParentInstruction != null && block.NextInstruction != null)
+            {
+                block.ParentInstruction.ChildInstruction = block.NextInstruction;
+                block.NextInstruction.PrevInstruction = null;
+                block.NextInstruction.ParentInstruction = block.ParentInstruction;
+                // no need to call layout as OnChildSizeChanged will do it
+            }
+            else if (block.ParentInstruction != null)
+            {
+                block.ParentInstruction.ChildInstruction = null;
+                // no need to call layout as OnChildSizeChanged will do it
+            }
+            else if (block.PrevInstruction != null && block.NextInstruction != null)
+            {
+                block.PrevInstruction.NextInstruction = block.NextInstruction;
+                block.NextInstruction.PrevInstruction = block.PrevInstruction;
+                block.PrevInstruction.LayoutElement();
+            }
+            else if (block.PrevInstruction != null)
+            {
+                block.PrevInstruction.NextInstruction = null;
+                block.PrevInstruction.LayoutElement();
+            }
+            else if (block.NextInstruction != null)
+            {
+                block.NextInstruction.PrevInstruction = null;
+                block.NextInstruction.LayoutElement();
+            }
+
+            block.PrevInstruction = null;
+            block.NextInstruction = null;
+            block.ParentInstruction = null;
+
+            updateConnectionsMethod.Invoke(block, null);
         }
     }
 }

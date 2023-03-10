@@ -1,12 +1,12 @@
-﻿using Assets.Scripts.Ui;
+﻿using Assets.Scripts.Patches;
+using Assets.Scripts.Ui;
 using Assets.Scripts.ViewModels;
 using Assets.Scripts.Vizzy.UI;
+using Assets.Scripts.Vizzy.UI.Elements;
 using HarmonyLib;
+using ModApi.Audio;
 using ModApi.Ui;
-using Rewired.Integration.UnityUI;
 using System.Linq;
-using System.Net.Configuration;
-using System.Reflection;
 using System.Xml.Linq;
 using UI.Xml;
 using UnityEngine;
@@ -102,6 +102,23 @@ namespace Assets.Scripts
                     XmlElement scrollViewElemnt = _vizzyController.xmlLayout.GetElementById("modules-drop-zone-scroll-view");
                     ScrollRect scrollRect = scrollViewElemnt.gameObject.GetComponent<ScrollRect>();
                     scrollRect.verticalNormalizedPosition = Mathf.Clamp01(scrollRect.verticalNormalizedPosition + speed * Time.deltaTime * scrollChange);
+                }
+            }
+
+            if (UnityEngine.Input.GetKeyUp(KeyCode.Delete))
+            {
+                if (_vizzyController.VizzyUI.SelectedElement != null)
+                {
+                    if (_vizzyController.VizzyUI.SelectedElement is InstructionElementScript instructionElement)
+                    {
+                        InstructionElementScriptPatches.DisconnectBlock(instructionElement);
+
+                    }
+
+                    _vizzyController.VizzyUI.SelectedElement.gameObject.SetActive(false);
+                    _vizzyController.VizzyUI.SelectedElement.Destroy();
+                    _vizzyController.VizzyUI.SelectedElement = null;
+                    _vizzyController.VizzyUI.PlaySound(AudioLibrary.Vizzy.DeleteNode);
                 }
             }
         }
