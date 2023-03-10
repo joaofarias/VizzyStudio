@@ -16,9 +16,14 @@
           <GridLayout id="modules-node-parent" class="no-image" cellSize="300 32" contentSizeFitter="vertical" />
         </VerticalScrollView>
       </VerticalLayout>
-      <Image class="separator" contentSizeFitter="vertical" active="false" />
-      <VerticalLayout flexibleHeight="25" spacing="8" active="false">
-        <TextMeshPro text="REFERENCES" color="ButtonText" alignment="Left" contentSizeFitter="vertical" margin="16 0 0 0" />
+      <Image class="separator" contentSizeFitter="vertical" />
+      <VerticalLayout flexibleHeight="25" spacing="8">
+        <Panel contentSizeFitter="vertical" padding="16 8 0 0">
+          <TextMeshPro text="REFERENCES" color="ButtonText" alignment="Left" />
+          <Panel id="add-reference-button" color="Button" tooltip="Add Reference" width="20" height="20" offsetXY="276 0">
+            <Image sprite="Ui/Sprites/Flight/IconAddInputSlider" width="16" height="16" color="Primary" />
+          </Panel>
+        </Panel>
         <VerticalScrollView flexibleHeight="100">
           <GridLayout id="references-node-parent" class="no-image" cellSize="300 32" contentSizeFitter="vertical" />
         </VerticalScrollView>

@@ -44,22 +44,32 @@ namespace Assets.Scripts.Patches
         [HarmonyPatch(nameof(ProgramSerializer.DeserializeFlightProgram))]
         private static void OnDeserializeFlightProgramPrefix(XElement programXml)
         {
-            if (!Game.InDesignerScene)
-                return;
+            if (Game.InFlightScene)
+            {
+                // Deserializing for flight
+            }
+            else if (Game.InDesignerScene)
+            {
+                //Deserialize for vizzy
+                _canDeserializeNodes = true;
 
-            _canDeserializeNodes = true;
-
-            ModuleManager.Instance.LoadModules(programXml);
+                ModuleManager.Instance.LoadModules(programXml);
+            }
         }
 
         [HarmonyPostfix]
         [HarmonyPatch(nameof(ProgramSerializer.DeserializeFlightProgram))]
         private static void OnDeserializeFlightProgramPostfix(XElement programXml, FlightProgram __result)
         {
-            if (!Game.InDesignerScene)
-                return;
-
-            _canDeserializeNodes = false;
+            if (Game.InFlightScene)
+            {
+                ReferenceManager.LoadReferencesForFlight(programXml, __result);
+            }
+            else if (Game.InDesignerScene)
+            {
+                //Deserialize for vizzy
+                _canDeserializeNodes = false;
+            }
         }
 
         [HarmonyPostfix]
@@ -67,6 +77,7 @@ namespace Assets.Scripts.Patches
         private static void OnSerializedFlightProgram(XElement __result)
         {
             ModuleManager.Instance.SaveModules(__result);
+            ReferenceManager.Instance.SaveReferences(__result);
         }
 
         [HarmonyPostfix]

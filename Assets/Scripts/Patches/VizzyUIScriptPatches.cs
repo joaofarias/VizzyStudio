@@ -23,6 +23,7 @@ namespace Assets.Scripts.Patches
         {
             ____controller.gameObject.AddComponent<VizzyStudioUI>();
             ____controller.gameObject.AddComponent<ModuleManager>();
+            ____controller.gameObject.AddComponent<ReferenceManager>();
         }
 
         [HarmonyPostfix]

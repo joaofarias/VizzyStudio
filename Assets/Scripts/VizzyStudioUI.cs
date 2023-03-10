@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Ui;
+using Assets.Scripts.ViewModels;
 using Assets.Scripts.Vizzy.UI;
 using HarmonyLib;
 using ModApi.Ui;
@@ -54,6 +55,17 @@ namespace Assets.Scripts
                     element.SetAttributeValue("alignment", "top");
                 }
             }
+
+            request.AddOnLayoutRebuiltAction(OnLayoutRebuilt);
+        }
+
+        private static void OnLayoutRebuilt(IXmlLayoutController controller)
+        {
+            IXmlElement addRefButton = controller.XmlLayout.GetElementById("add-reference-button");
+            addRefButton.AddOnClickEvent(() =>
+            {
+                Game.Instance.UserInterface.CreateListView(new AddReferenceViewModel(Instance));
+            });
         }
 
         private void Awake()
