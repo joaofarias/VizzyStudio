@@ -17,16 +17,16 @@ On the very first time the game runs with this mod, a backup of your program fil
 
 Known issues: when importing a program with modules that match existing modules' name, those modules will be merged.
 
-#### v0.2 - Current Version
+#### v0.2
 - References: use custom expressions/instructions from external files without importing them into your program
   - Easier to maintain and update common logic
   - Prevents code duplication
 
-#### v0.3 - In development
+#### v0.3 - Current Version
 - Drag a single block out of a group
 - Add shortcuts (e.g. Del key to delete selected block)
 
-#### v0.4
+#### v0.4 - In development
 - Local variables: variables available only within the current instruction set
   - Reduces clutter in the variables panel
   - Allows for cleaner, more readable code
