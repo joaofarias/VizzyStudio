@@ -8,7 +8,7 @@ On the very first time the game runs with this mod, a backup of your program fil
 
 ### Roadmap
 
-#### v0.1 - Current Version
+#### v0.1
 - Modules: organize your program into multiple modules for quick and easy access to specific logic
   - All blocks are global. You can have custom expressions/instructions in one module and use them in another
   - Move blocks between modules by dragging them to the chosen module on the right-hand side and placing them in a single movement
@@ -17,12 +17,12 @@ On the very first time the game runs with this mod, a backup of your program fil
 
 Known issues: when importing a program with modules that match existing modules' name, those modules will be merged.
 
-#### v0.2 - In development
+#### v0.2 - Current Version
 - References: use custom expressions/instructions from external files without importing them into your program
   - Easier to maintain and update common logic
   - Prevents code duplication
 
-#### v0.3
+#### v0.3 - In development
 - Drag a single block out of a group
 - Add shortcuts (e.g. Del key to delete selected block)
 
