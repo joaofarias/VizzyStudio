@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Vizzy.UI;
+using Assets.Scripts.Vizzy.UI.Elements;
 using ModApi.Common.Extensions;
 using ModApi.Craft.Program;
 using ModApi.Craft.Program.Expressions;
@@ -6,6 +7,7 @@ using ModApi.Craft.Program.Instructions;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Xml.Linq;
 using UnityEngine;
 
@@ -54,6 +56,35 @@ namespace Assets.Scripts
 
         public void RemoveReference(Reference reference)
         {
+            List<BlockElementScript> blocks = _vizzyController.ProgramTransform.GetComponentsInChildren<BlockElementScript>(true).ToList();
+
+            StringBuilder output = new StringBuilder();
+            foreach (CustomInstruction customInstruction in reference.CustomInstructions)
+            {
+                int numCalls = blocks.Where(x => x.Node is CallCustomInstruction).Select(x => x.Node as CallCustomInstruction).Distinct().Count(x => x.Call == customInstruction.Name);
+                if (numCalls > 0)
+                {
+                    output.AppendLine($"Custom Instruction '{customInstruction.Name}' is used in the program and cannot be deleted ({numCalls} references).");
+                    break;
+                }
+            }
+
+            foreach (CustomExpression customExpression in reference.CustomExpressions)
+            {
+                int numCalls = blocks.Where(x => x.Node is CallCustomExpression).Select(x => x.Node as CallCustomExpression).Distinct().Count(x => x.Call == customExpression.Name);
+                if (numCalls > 0)
+                {
+                    output.AppendLine($"Custom Expression '{customExpression.Name}' is used in the program and cannot be deleted ({numCalls} references).");
+                    break;
+                }
+            }
+
+            if (output.Length > 0)
+            {
+                Game.Instance.UserInterface.CreateMessageDialog(output.ToString());
+                return;
+            }
+
             References.Remove(reference);
 
             FlightProgram program = _vizzyController.VizzyUI.FlightProgram;
