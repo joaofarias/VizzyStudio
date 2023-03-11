@@ -22,16 +22,16 @@ Known issues: when importing a program with modules that match existing modules'
   - Easier to maintain and update common logic
   - Prevents code duplication
 
-#### v0.3 - Current Version
+#### v0.3
 - Drag a single block out of a group
 - Add shortcuts (e.g. Del key to delete selected block)
 
-#### v0.4 - In development
+#### v0.4 - Current Version
 - Local variables: variables available only within the current instruction set
   - Reduces clutter in the variables panel
   - Allows for cleaner, more readable code
 
-#### v0.5
+#### v0.5 - In development
 - 'Return' block: return values from custom instructions
   - Cleaner code by reducing the need for global variables
   - Allows better code partioning
