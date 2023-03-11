@@ -41,6 +41,7 @@ namespace Assets.Scripts.Patches
         private static void OnNewFlightProgram()
         {
             ModuleManager.Instance.Reset();
+            ReferenceManager.Instance.Reset();
         }
 
         [HarmonyPrefix]
@@ -48,6 +49,7 @@ namespace Assets.Scripts.Patches
         private static void OnLoadFlightProgram()
         {
             ModuleManager.Instance.Reset();
+            ReferenceManager.Instance.Reset();
         }
 
         [HarmonyPrefix]
