@@ -1,0 +1,12 @@
+﻿<XmlLayout>
+  <Styles>
+    <Style id="set-local-variable" color="Instruction" format="set local variable |var| to (0)" tooltip="Creates a local variable with the given value." />
+  </Styles>
+  <Categories>
+    <Category name="Variables">
+      <SetLocalVariable style="set-local-variable">
+        <Constant number="0" />
+      </SetLocalVariable>
+    </Category>
+  </Categories>
+</XmlLayout>

@@ -18,6 +18,8 @@ MonoBehaviour:
   - Content/XML UI
   AutomaticallyRemoveEntries: 1
   entries:
+  - path: Vizzy Studio/Blocks
+    resource: {fileID: 4900000, guid: 9f14c504674ecc9459d72bd76a860351, type: 3}
   - path: Vizzy Studio/UIResourceDatabase
     resource: {fileID: 11400000}
   - path: Vizzy Studio/VizzyFileExplorer

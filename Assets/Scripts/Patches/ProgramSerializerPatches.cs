@@ -1,6 +1,9 @@
-﻿using HarmonyLib;
+﻿using Assets.Scripts.Blocks;
+using HarmonyLib;
 using ModApi.Craft.Program;
 using ModApi.Craft.Program.Instructions;
+using System;
+using System.Reflection;
 using System.Xml.Linq;
 using UnityEngine;
 
@@ -91,6 +94,31 @@ namespace Assets.Scripts.Patches
                 Module module = ModuleManager.Instance.GetModule(node);
                 __result.SetAttributeValue("module", module.Name);
             }
+        }
+
+        private static bool _initializedBlocks = false;
+        [HarmonyPrefix]
+        [HarmonyPatch(nameof(ProgramSerializer.CreateProgramNode))]
+        private static void OnCreateProgramNode()
+        {
+            if (_initializedBlocks)
+                return;
+
+            _initializedBlocks = true;
+
+            ConstructorInfo programNodeCreatorConstructor = AccessTools.FirstConstructor(AccessTools.TypeByName("ProgramSerializer.ProgramNodeCreator"), c => true);
+            ConstructorInfo programNodeCreatorConstructor2 = AccessTools.FirstConstructor(AccessTools.TypeByName("ProgramNodeCreator"), c => true);
+
+            object typeNameLookup = AccessTools.Field(typeof(ProgramSerializer), "_typeNameLookup").GetValue(null);
+            object xmlNameLookup = AccessTools.Field(typeof(ProgramSerializer), "_xmlNameLookup").GetValue(null);
+
+            MethodInfo typeNameLookupAddMethod = AccessTools.Method(typeNameLookup.GetType(), "Add");
+            MethodInfo xmlNameLookupAddMethod = AccessTools.Method(xmlNameLookup.GetType(), "Add");
+
+            object setLocalVariableCreator = programNodeCreatorConstructor2.Invoke(new object[] { "SetLocalVariable", typeof(SetLocalVariableInstruction), (Func<ProgramNode>)(() => new SetLocalVariableInstruction()) });
+
+            typeNameLookupAddMethod.Invoke(typeNameLookup, new object[] { typeof(SetLocalVariableInstruction).Name, setLocalVariableCreator });
+            xmlNameLookupAddMethod.Invoke(xmlNameLookup, new object[] { "SetLocalVariable", setLocalVariableCreator });
         }
     }
 }
